@@ -50,8 +50,8 @@ Sửa `config.json` khi Ubuntu đã tắt:
 
 - RAM/CPU áp dụng mỗi lần mở. `DiskSizeGiB` chỉ dùng lúc **tạo ổ mới**, sửa nó không tự đổi dung lượng ổ đã cài.
 - `auto` thử WHPX **đã có sẵn**, với `kernel-irqchip=off`; nếu không khởi tạo được thì thử TCG. Nếu WHPX khởi tạo được nhưng lỗi lúc chạy, đặt `Accelerator` thành `tcg` thủ công. Không tự bật Windows Hypervisor/Hyper-V và không cần cấu hình BIOS.
-- Hai giá trị màn hình bằng `0` nghĩa là tự lấy kích thước màn Windows chính và quảng bá cho Ubuntu qua EDID ảo, giới hạn 3840×2160. Có thể đặt cả hai thành `1920` và `1080` để cố định Full HD.
-- Không dùng kéo giãn ảnh để giả độ phân giải cao. Khởi động desktop sẽ chọn mode ưu tiên của card ảo. Cửa sổ có thể lớn hơn vùng làm việc; dùng toàn màn hình hoặc đặt độ phân giải thấp hơn trong `config.json`.
+- Hai giá trị màn hình bằng `0` nghĩa là tự lấy kích thước màn Windows chính và báo kích thước mong muốn cho Ubuntu qua EDID/SMBIOS ảo, giới hạn 3840×2160. Có thể đặt cả hai thành `1920` và `1080` để cố định Full HD.
+- Không dùng kéo giãn ảnh để giả độ phân giải cao. Desktop chọn độ phân giải theo thông tin bộ mở truyền vào, không chỉ dựa vào mode firmware nhỏ. Với kích thước lạ sẽ thử tạo mode CVT, rồi dự phòng mode có sẵn nếu không hỗ trợ. Cửa sổ có thể lớn hơn vùng làm việc; dùng toàn màn hình hoặc đặt độ phân giải thấp hơn trong `config.json`.
 - Có sẵn bộ đọc SVG để icon không bị phóng ảnh nhỏ; icon desktop 64 px. Hình nền có bảng phím tắt trong `~/Pictures`.
 
 ## Phím tắt thường dùng

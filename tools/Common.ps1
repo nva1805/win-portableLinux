@@ -55,7 +55,7 @@ function Get-PortableQemuArguments($Config, [string]$Mode = 'Terminal') {
     $arguments = @('-name','PortableUbuntu','-machine','pc','-cpu','max',
         '-smp',"$($Config.CPUs)",'-m',"$($Config.MemoryMB)",'-display',$display,
         '-vga','none','-device',"virtio-vga,xres=$($size[0]),yres=$($size[1])",
-        '-smbios',"type=1,product=PortableUbuntu-$Mode",'-global','isa-fdc.fdtypeA=none',
+        '-smbios',"type=1,product=PortableUbuntu-$Mode,version=PortableDisplay-$($size[0])x$($size[1])",'-global','isa-fdc.fdtypeA=none',
         '-drive','file=disks/ubuntu.qcow2,format=qcow2,if=virtio',
         '-nic','user,model=virtio-net-pci','-boot','order=c','-rtc','base=utc')
     if ($Config.Accelerator -eq 'auto') { $arguments += @('-accel','whpx,kernel-irqchip=off') }

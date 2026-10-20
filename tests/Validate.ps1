@@ -63,6 +63,7 @@ Test-Check 'Runtime arguments do not share host drives, SSH or clipboard' {
     Assert-True ($arguments.Contains('zoom-to-fit=off')) 'Do not stretch guest pixels'
     Assert-True ($arguments.Contains('clipboard=off')) 'Clipboard must be disabled'
     Assert-True ($arguments.Contains('virtio-vga,xres=1920,yres=1080')) 'Missing display EDID size'
+    Assert-True ($arguments.Contains('version=PortableDisplay-1920x1080')) 'Missing explicit guest display hint'
     Assert-True ($arguments.Contains('whpx,kernel-irqchip=off')) 'Missing WHPX workaround'
     Assert-True (-not ($arguments -match 'hostfwd|virtfs|fsdev|ext4.vhdx')) 'Unexpected incoming port or host drive'
     $config.Accelerator='tcg'

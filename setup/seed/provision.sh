@@ -22,7 +22,7 @@ dpkg --configure -a
 apt-get -o DPkg::Lock::Timeout=180 -o Dpkg::Use-Pty=0 update
 apt-get -o DPkg::Lock::Timeout=180 -o Dpkg::Use-Pty=0 install -y --no-install-recommends \
     linux-image-generic xserver-xorg-core xserver-xorg-video-all \
-    xserver-xorg-input-libinput xinit x11-xserver-utils \
+    xserver-xorg-input-libinput xinit x11-xserver-utils xcvt \
     xfce4 xfce4-terminal dbus-x11 fonts-dejavu-core \
     adwaita-icon-theme librsvg2-common at-spi2-core tumbler \
     mousepad curl git nano ca-certificates
@@ -64,13 +64,26 @@ EOF
 chmod 755 /home/ubuntu/.xinitrc
 
 cat >/usr/local/bin/portable-display-auto <<'EOF'
-#!/bin/sh
-# The QEMU launcher advertises the current host's size via virtual EDID.
-# --auto picks that preferred mode, rather than stretching a 640x480 image.
+#!/bin/bash
+# GTK can replace EDID's preferred mode with the small firmware boot mode.
+# Read the explicit desired size from virtual SMBIOS, not just --preferred.
 output=$(xrandr --query | awk '/ connected/{print $1; exit}')
-if [ -n "$output" ]; then
-    xrandr --output "$output" --auto
+mode=$(sed -n 's/^PortableDisplay-\([0-9]\{3,4\}x[0-9]\{3,4\}\)$/\1/p' /sys/class/dmi/id/product_version)
+[ -n "$output" ] || exit 0
+if [ -n "$mode" ]; then
+    if xrandr --output "$output" --mode "$mode" 2>/dev/null; then exit 0; fi
+    # Unusual host sizes may need an explicit CVT mode. No eval is used.
+    if command -v cvt >/dev/null; then
+        read -r -a timing <<<"$(cvt "${mode%x*}" "${mode#*x}" 60 | sed -n 's/^Modeline //p')"
+        if [ "${#timing[@]}" -gt 1 ]; then
+            timing[0]=${timing[0]//\"/}
+            xrandr --newmode "${timing[@]}" 2>/dev/null || true
+            xrandr --addmode "$output" "${timing[0]}" 2>/dev/null || true
+            if xrandr --output "$output" --mode "${timing[0]}" 2>/dev/null; then exit 0; fi
+        fi
+    fi
 fi
+xrandr --output "$output" --mode 1024x768 2>/dev/null || xrandr --output "$output" --auto
 EOF
 chmod 755 /usr/local/bin/portable-display-auto
 cat >/home/ubuntu/.config/autostart/portable-display.desktop <<'EOF'
