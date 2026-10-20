@@ -1,0 +1,49 @@
+#cloud-config
+hostname: portable-ubuntu
+manage_etc_hosts: true
+timezone: Asia/Ho_Chi_Minh
+users:
+  - name: ubuntu
+    gecos: Portable Ubuntu
+    groups: [adm, sudo, audio, video, plugdev]
+    shell: /bin/bash
+    lock_passwd: true
+    sudo: 'ALL=(ALL) NOPASSWD:ALL'
+ssh_pwauth: false
+disable_root: true
+ssh_deletekeys: true
+ssh_genkeytypes: []
+package_update: false
+package_upgrade: false
+write_files:
+  - path: /usr/local/sbin/provision-portable-linux
+    permissions: '0755'
+    encoding: b64
+    content: __PROVISION_BASE64__
+  - path: /usr/local/share/backgrounds/portable-shortcuts.png
+    permissions: '0644'
+    encoding: b64
+    content: __WALLPAPER_BASE64__
+  - path: /etc/systemd/system/portable-provision.service
+    content: |
+      [Unit]
+      Description=Install the portable Ubuntu desktop
+      Wants=network-online.target
+      After=network-online.target cloud-final.service
+      ConditionPathExists=!/var/lib/portable-linux-ready
+      [Service]
+      Type=oneshot
+      ExecStart=/usr/local/sbin/provision-portable-linux
+      StandardOutput=journal+console
+      StandardError=journal+console
+      TimeoutStartSec=infinity
+      [Install]
+      WantedBy=multi-user.target
+  - path: /etc/apt/apt.conf.d/99portable
+    content: |
+      Acquire::Languages "none";
+      Acquire::Retries "3";
+runcmd:
+  - [systemctl, daemon-reload]
+  - [systemctl, enable, portable-provision.service]
+  - [systemctl, start, --no-block, portable-provision.service]

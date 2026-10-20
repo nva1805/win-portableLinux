@@ -1,0 +1,23 @@
+# Installed operating system, binaries, caches and local credentials NEVER belong in Git.
+/disks/
+/qemu/
+/runtime/
+/downloads/
+/.local-tools/
+/.test-runs/
+/.publish/
+*.qcow2
+*.vhdx
+*.vhd
+*.iso
+*.img
+*.part
+*.log
+*.pem
+*.key
+.env
+.env.*
+hosts.yml
+credentials
+id_rsa*
+id_ed25519*

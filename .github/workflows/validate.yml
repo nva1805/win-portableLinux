@@ -1,0 +1,26 @@
+name: Validate portable setup
+on: [push, pull_request, workflow_dispatch]
+permissions:
+  contents: read
+jobs:
+  windows:
+    runs-on: windows-latest
+    steps:
+      - uses: actions/checkout@v4
+      - name: Validate scripts, source pins, safety and launchers
+        shell: powershell
+        run: ./tests/Validate.ps1
+      - name: Validate setup config without downloads or VM
+        shell: powershell
+        run: ./setup/Setup.ps1 -ValidateOnly
+  seed:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - name: Check provisioning shell syntax
+        run: bash -n setup/seed/provision.sh
+      - name: Validate cloud-init seed schema
+        run: |
+          sudo apt-get update -qq
+          sudo apt-get install -y cloud-init
+          cloud-init schema --config-file setup/seed/user-data

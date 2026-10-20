@@ -1,0 +1,33 @@
+{
+  "schemaVersion": 1,
+  "ubuntu": {
+    "version": "24.04 LTS amd64 / release-20261017",
+    "url": "https://cloud-images.ubuntu.com/releases/noble/release-20261017/ubuntu-24.04-server-cloudimg-amd64.img",
+    "checksumUrl": "https://cloud-images.ubuntu.com/releases/noble/release-20261017/SHA256SUMS",
+    "algorithm": "SHA256",
+    "hash": "04e8f2461a16a44e78a370284471f29616cdd9baf1893df25807b71f985b6c94",
+    "file": "ubuntu-24.04-server-cloudimg-amd64.img"
+  },
+  "qemu": {
+    "version": "Windows x64 build 20260811 (experimental upstream build)",
+    "url": "https://qemu.weilnetz.de/w64/qemu-w64-setup-20260811.exe",
+    "checksumUrl": "https://qemu.weilnetz.de/w64/qemu-w64-setup-20260811.sha512",
+    "algorithm": "SHA512",
+    "hash": "5bcf9eed634e8575a37b74f445af41a2fe4106da512d0c30c368301d4c105037fdfab40a5287367a28a957624cddebbc8c07e16c88ab6634f554cdf3d16bf543",
+    "file": "qemu-w64-setup-20260811.exe"
+  },
+  "sevenZipBootstrap": {
+    "version": "26.04",
+    "url": "https://github.com/ip7z/7zip/releases/download/26.04/7zr.exe",
+    "algorithm": "SHA256",
+    "hash": "256feca8e274e5da655e2a284fabafd9f554365eb164862089dacd4e8276d282",
+    "file": "7zr.exe"
+  },
+  "sevenZip": {
+    "version": "26.04 x64",
+    "url": "https://github.com/ip7z/7zip/releases/download/26.04/7z2604-x64.exe",
+    "algorithm": "SHA256",
+    "hash": "d54bf805f9f3704d1e8db2fa3498ae7ef2df0312b40b558e7c71c734430a665d",
+    "file": "7z2604-x64.exe"
+  }
+}

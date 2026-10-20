@@ -1,0 +1,8 @@
+{
+  "MemoryMB": 2048,
+  "CPUs": 2,
+  "Accelerator": "auto",
+  "DiskSizeGiB": 24,
+  "DisplayWidth": 0,
+  "DisplayHeight": 0
+}
